@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res, HttpStatus } from '@nestjs/common';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { AIService } from '../../application/services/ai.service';
 import { type CoreMessage } from 'ai';
 

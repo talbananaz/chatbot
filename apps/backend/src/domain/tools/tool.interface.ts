@@ -10,3 +10,4 @@ export interface ITool<TParams = unknown, TResult = unknown> {
   readonly parametersSchema: z.ZodSchema<TParams>;
   execute(params: TParams): Promise<TResult>;
 }
+

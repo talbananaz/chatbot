@@ -19,32 +19,15 @@ export class AIService {
     private readonly conversationService: ConversationService,
     @Inject('TOOLS') private readonly tools: ITool[],
   ) {
-    const region = this.configService.get<string>('bedrock.region');
-    const profile = this.configService.get<string>('bedrock.profile');
-    const accessKeyId = this.configService.get<string>('bedrock.accessKeyId');
-    const secretAccessKey = this.configService.get<string>('bedrock.secretAccessKey');
     const modelId = this.configService.get<string>('bedrock.model');
 
-    // Build credentials object based on what's provided
-    // Priority: 1. Profile, 2. Static credentials, 3. Default credential chain
-    const credentials: {
-      region?: string;
-      profile?: string;
-      accessKeyId?: string;
-      secretAccessKey?: string;
-    } = { region };
-
-    if (profile) {
-      // Use AWS SSO profile
-      credentials.profile = profile;
-    } else if (accessKeyId && secretAccessKey) {
-      // Use static credentials
-      credentials.accessKeyId = accessKeyId;
-      credentials.secretAccessKey = secretAccessKey;
-    }
-    // If neither profile nor credentials provided, AWS SDK will use default credential chain
-
-    this.model = bedrock(modelId!, credentials);
+    // The bedrock() function uses environment variables and AWS credential chain
+    // Set these environment variables before starting the app:
+    // - AWS_REGION: AWS region
+    // - AWS_PROFILE: AWS SSO profile name (if using SSO)
+    // - AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY: Static credentials (if not using SSO)
+    // If none are set, it will use the default AWS credential chain
+    this.model = bedrock(modelId!);
   }
 
   /**

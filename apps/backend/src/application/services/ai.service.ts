@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { bedrock } from '@ai-sdk/amazon-bedrock';
 import { streamText, convertToCoreMessages, type CoreMessage } from 'ai';
-import { ConversationService } from './conversation.service';
-import { ITool } from '../../domain/tools/tool.interface';
+import { ConversationService } from './conversation.service.ts';
+import { ITool } from '../../domain/tools/tool.interface.ts';
 
 /**
  * AI Service that integrates with AWS Bedrock.

@@ -1,0 +1,27 @@
+{
+  "name": "@chatbot-monorepo/backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/main.ts",
+    "start:dev": "bun --watch src/main.ts",
+    "build": "bun build src/main.ts --outdir dist --target node"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.15",
+    "@nestjs/core": "^10.4.15",
+    "@nestjs/platform-express": "^10.4.15",
+    "@nestjs/config": "^3.3.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.709.0",
+    "@ai-sdk/amazon-bedrock": "^1.0.10",
+    "ai": "^4.0.38",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "cheerio": "^1.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chatbot-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:demo": "bun --cwd apps/demo dev",
+    "dev:backend": "bun --cwd apps/backend start:dev",
+    "build:ui": "bun --cwd packages/chatbot-ui build",
+    "build:demo": "bun --cwd apps/demo build",
+    "build:backend": "bun --cwd apps/backend build",
+    "build": "bun run build:ui && bun run build:demo && bun run build:backend"
+  }
+}

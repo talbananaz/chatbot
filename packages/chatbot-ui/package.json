@@ -11,17 +11,18 @@
     }
   },
   "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime && bun run build:types",
+    "build": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime --external @assistant-ui/react --external @assistant-ui/react-ui --external lucide-react && bun run build:types",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly",
-    "dev": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime --watch"
+    "dev": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime --external @assistant-ui/react --external @assistant-ui/react-ui --external lucide-react --watch"
   },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@assistant-ui/react": "^0.11.32",
-    "@assistant-ui/react-ui": "^0.2.0"
+    "@assistant-ui/react": "^0.11.34",
+    "@assistant-ui/react-ui": "^0.2.1",
+    "lucide-react": "^0.546.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",

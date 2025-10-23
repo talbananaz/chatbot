@@ -39,3 +39,5 @@ Thumbs.db
 .cache/
 .parcel-cache/
 packages/chatbot-ui/tsconfig.tsbuildinfo
+packages/chatbot-ui/tsconfig.tsbuildinfo
+packages/chatbot-ui/tsconfig.tsbuildinfo

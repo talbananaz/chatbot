@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import '@assistant-ui/react-ui/styles/index.css';
+import '@assistant-ui/react-ui/styles/modal.css';
 import App from './App';
 
 const root = document.getElementById('root');

@@ -1,12 +1,17 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import {
-  Chatbot,
+  AssistantModal,
   ChatbotProvider,
   useToolRegistry,
   useEventSubscription,
   type ToolResult,
   type ChatbotConfig,
 } from '@chatbot-monorepo/ui';
+import {
+  AssistantRuntimeProvider,
+  useLocalRuntime,
+  type ChatModelAdapter,
+} from '@assistant-ui/react';
 import type { ContactFormHandle } from './ContactForm';
 import type { FormInteractionInstruction } from '../types';
 
@@ -79,10 +84,71 @@ function ChatbotContent({ formRef }: ChatbotPanelProps) {
     apiUrl: 'http://localhost:3000/api/chat',
   };
 
+  // Create adapter for custom backend (same as in Chatbot component)
+  const adapter: ChatModelAdapter = useMemo(
+    () => ({
+      async *run({ messages, abortSignal }: { messages: unknown; abortSignal: AbortSignal }) {
+        try {
+          const response = await fetch(config.apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ messages }),
+            signal: abortSignal,
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const reader = response.body?.getReader();
+          if (!reader) {
+            throw new Error('Response body is not readable');
+          }
+
+          const decoder = new TextDecoder();
+          let buffer = '';
+          let accumulatedText = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              if (line.startsWith('0:')) {
+                const textContent = line.slice(2);
+                try {
+                  const text = JSON.parse(textContent);
+                  if (text && typeof text === 'string') {
+                    accumulatedText += text;
+                    yield { content: [{ type: 'text', text: accumulatedText }] };
+                  }
+                } catch (e) {
+                  console.warn('Failed to parse text chunk:', textContent);
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Chatbot error:', error);
+          throw error;
+        }
+      },
+    }),
+    [config.apiUrl]
+  );
+
+  const runtime = useLocalRuntime(adapter);
+
   return (
-    <div className="chatbot-panel">
-      <Chatbot config={config} className="chatbot-panel" />
-    </div>
+    <AssistantRuntimeProvider runtime={runtime}>
+      <AssistantModal />
+    </AssistantRuntimeProvider>
   );
 }
 

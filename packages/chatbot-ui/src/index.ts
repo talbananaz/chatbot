@@ -14,6 +14,9 @@
 
 // Core components
 export { Chatbot } from './components/Chatbot';
+export { ChatbotModal } from './components/ChatbotModal';
+export { AssistantModal } from './components/AssistantModal';
+export { TooltipIconButton } from './components/TooltipIconButton';
 export { ChatbotProvider, useChatbotContext } from './context/ChatbotContext';
 
 // Core infrastructure

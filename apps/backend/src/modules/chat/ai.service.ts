@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { bedrock } from '@ai-sdk/amazon-bedrock';
 import { streamText, convertToCoreMessages, type CoreMessage } from 'ai';
 import { ConversationService } from '../conversation/conversation.service.ts';
-import { ITool } from '../tools/interfaces/tool.interface';
+import type { ITool } from '../tools/interfaces/tool.interface';
 
 /**
  * AI Service that integrates with AWS Bedrock.

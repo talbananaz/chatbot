@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { IConversationRepository } from '../../domain/repositories/conversation.repository.interface';
-import { Conversation } from '../../domain/entities/conversation.entity';
+import { IConversationRepository } from '../interfaces/conversation-repository.interface.ts';
+import { Conversation } from '../entities/conversation.entity.ts';
 
 /**
  * In-memory implementation of conversation repository.

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   IConversationRepository,
-} from '../../domain/repositories/conversation.repository.interface';
-import { Conversation, Message } from '../../domain/entities/conversation.entity';
+} from './interfaces/conversation-repository.interface.ts';
+import { Conversation, Message } from './entities/conversation.entity.ts';
 import { randomUUID } from 'crypto';
 
 /**

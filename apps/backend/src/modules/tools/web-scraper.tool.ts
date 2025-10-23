@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
 import { load } from 'cheerio';
-import { ITool } from '../../domain/tools/tool.interface.ts';
+import { ITool } from './interfaces/tool.interface';
 
 /**
  * Web scraping tool implementation.

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
-import { ITool } from '../../domain/tools/tool.interface.ts';
+import { ITool } from './interfaces/tool.interface';
 
 /**
  * Search tool implementation.

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
+import { AppModule } from './app.module.ts';
 
 /**
  * Application bootstrap.
@@ -8,13 +9,16 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Get config service
+  const configService = app.get(ConfigService);
+
   // Enable CORS for frontend communication
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: configService.get<string>('app.frontendUrl'),
     credentials: true,
   });
 
-  const port = process.env.PORT || 3000;
+  const port = configService.get<number>('app.port');
   await app.listen(port);
 
   console.log(`🚀 Backend server running on http://localhost:${port}`);

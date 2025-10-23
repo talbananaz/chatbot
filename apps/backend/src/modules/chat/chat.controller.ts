@@ -1,18 +1,12 @@
 import { Body, Controller, Post, Res, HttpStatus } from '@nestjs/common';
 import type { Response } from 'express';
-import { AIService } from '../../application/services/ai.service';
-import { type CoreMessage } from 'ai';
+import { AIService } from './ai.service.ts';
+import { ChatRequestDto } from './dto/chat-request.dto.ts';
 
 /**
  * Chat controller handling HTTP endpoints.
  * Follows Single Responsibility Principle - only handles HTTP concerns.
  */
-
-interface ChatRequest {
-  messages: CoreMessage[];
-  conversationId?: string;
-}
-
 @Controller('api')
 export class ChatController {
   constructor(private readonly aiService: AIService) {}
@@ -22,7 +16,7 @@ export class ChatController {
    * Compatible with assistant-ui's expected format
    */
   @Post('chat')
-  async chat(@Body() body: ChatRequest, @Res() res: Response) {
+  async chat(@Body() body: ChatRequestDto, @Res() res: Response) {
     try {
       const { messages, conversationId } = body;
 

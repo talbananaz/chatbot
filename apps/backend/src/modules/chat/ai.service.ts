@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { bedrock } from '@ai-sdk/amazon-bedrock';
 import { streamText, convertToCoreMessages, type CoreMessage } from 'ai';
-import { ConversationService } from './conversation.service.ts';
-import { ITool } from '../../domain/tools/tool.interface.ts';
+import { ConversationService } from '../conversation/conversation.service.ts';
+import { ITool } from '../tools/interfaces/tool.interface';
 
 /**
  * AI Service that integrates with AWS Bedrock.
@@ -19,7 +19,7 @@ export class AIService {
     private readonly conversationService: ConversationService,
     @Inject('TOOLS') private readonly tools: ITool[],
   ) {
-    const modelId = this.configService.get<string>('bedrock.model');
+    const modelId = this.configService.get<string>('app.bedrock.model');
 
     // The bedrock() function uses environment variables and AWS credential chain
     // Set these environment variables before starting the app:

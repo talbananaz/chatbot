@@ -11,9 +11,9 @@
     }
   },
   "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target browser --format esm && bun run build:types",
+    "build": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime && bun run build:types",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly",
-    "dev": "bun build src/index.ts --outdir dist --target browser --format esm --watch"
+    "dev": "bun build src/index.ts --outdir dist --target browser --format esm --external react --external react-dom --external react/jsx-runtime --watch"
   },
   "peerDependencies": {
     "react": "^18.0.0",

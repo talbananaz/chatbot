@@ -53,6 +53,7 @@ export function Chatbot({ config, className }: ChatbotProps) {
 
           const decoder = new TextDecoder();
           let buffer = '';
+          let accumulatedText = ''; // Accumulate all text chunks
 
           while (true) {
             const { done, value } = await reader.read();
@@ -64,12 +65,21 @@ export function Chatbot({ config, className }: ChatbotProps) {
 
             for (const line of lines) {
               if (line.startsWith('0:')) {
-                const json = line.slice(2);
-                const data = JSON.parse(json);
-                if (data.type === 'text-delta' && data.textDelta) {
-                  yield { content: [{ type: 'text', text: data.textDelta }] };
+                // AI SDK format: 0:"text content"
+                const textContent = line.slice(2); // Remove '0:' prefix
+                try {
+                  // Parse the JSON string (which is a quoted string)
+                  const text = JSON.parse(textContent);
+                  if (text && typeof text === 'string') {
+                    // Accumulate text and yield the full text so far
+                    accumulatedText += text;
+                    yield { content: [{ type: 'text', text: accumulatedText }] };
+                  }
+                } catch (e) {
+                  console.warn('Failed to parse text chunk:', textContent);
                 }
               }
+              // Ignore other stream event types for now (tools, finish reasons, etc.)
             }
           }
         } catch (error) {

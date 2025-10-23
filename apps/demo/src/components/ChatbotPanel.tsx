@@ -76,7 +76,7 @@ function ChatbotContent({ formRef }: ChatbotPanelProps) {
   }, []);
 
   const config: ChatbotConfig = {
-    apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/chat',
+    apiUrl: 'http://localhost:3000/api/chat',
   };
 
   return (

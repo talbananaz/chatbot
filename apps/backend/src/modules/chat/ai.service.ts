@@ -20,14 +20,21 @@ export class AIService {
     @Inject('TOOLS') private readonly tools: ITool[],
   ) {
     const modelId = this.configService.get<string>('app.bedrock.model');
+    const region = this.configService.get<string>('app.bedrock.region');
+    const profile = this.configService.get<string>('app.bedrock.profile');
+    const accessKeyId = this.configService.get<string>('app.bedrock.accessKeyId');
+    const secretAccessKey = this.configService.get<string>('app.bedrock.secretAccessKey');
 
-    // The bedrock() function uses environment variables and AWS credential chain
-    // Set these environment variables before starting the app:
-    // - AWS_REGION: AWS region
-    // - AWS_PROFILE: AWS SSO profile name (if using SSO)
-    // - AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY: Static credentials (if not using SSO)
-    // If none are set, it will use the default AWS credential chain
-    this.model = bedrock(modelId!);
+    // Configure AWS Bedrock using values from ConfigService
+    // Supports three authentication modes:
+    // 1. AWS SSO Profile: profile is set
+    // 2. Static Credentials: accessKeyId and secretAccessKey are set
+    // 3. Default Credentials: Uses AWS SDK default credential chain (neither above are set)
+    this.model = bedrock(modelId!, {
+      region,
+      profile,
+      ...(accessKeyId && secretAccessKey ? { accessKeyId, secretAccessKey } : {}),
+    });
   }
 
   /**
